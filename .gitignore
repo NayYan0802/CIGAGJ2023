@@ -1,0 +1,7 @@
+.vsconfig
+2023CigaGamejam.sln
+Assembly-CSharp.csproj       
+Library/
+Logs/
+UserSettings/
+obj/
