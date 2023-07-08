@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] R2;
     [SerializeField] private GameObject[] R3;
     [SerializeField] private GameObject[] R4;
+
+    [SerializeField] private Text score;
 
     [SerializeField] private List<GameObject> Keys;
 
@@ -67,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        hasStart = false;
+        //hasStart = false;
         AllKeys.AddRange(keyCodes);
     }
 
@@ -81,11 +85,16 @@ public class GameManager : MonoBehaviour
         {
             SwitchKeyboard();
         }
+        UIUpdate();
         InputUpdate();
 
         Debug.Log(Pairs.Count);
     }
 
+    private void UIUpdate()
+    {
+        score.text = ((int)(movingPart.transform.position.y * -1)).ToString() + "cm";
+    }
 
     private void SwitchKeyboard()
     {
@@ -161,5 +170,27 @@ public class GameManager : MonoBehaviour
         }
         Debug.LogError("WrongHand");
         return -1;
+    }
+
+    public void OnPause()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void OnResume()
+    {
+        Time.timeScale = 1.0f;
+    }
+
+    public void OnRestart()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void GoToMenu()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(1);
     }
 }
