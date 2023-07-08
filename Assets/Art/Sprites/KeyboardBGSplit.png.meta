@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4fbfb4e9aa0e0644d9e2e313d851f56e
+guid: 51e5158749cec964eada7920ab18fc7f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,85 +110,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KeyboardSplit_0
+      name: KeyboardBGSplit_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 669
-        width: 1881
-        height: 162
+        x: 0
+        y: 399
+        width: 1890
+        height: 133
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0762241a7881feb4a893dc892b5f619c
-      internalID: 1523243519
+      spriteID: 7a975da68049c8147be992d4a276559c
+      internalID: -508848438
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KeyboardSplit_1
+      name: KeyboardBGSplit_1
       rect:
         serializedVersion: 2
-        x: 23
-        y: 513
-        width: 1877
-        height: 156
+        x: 0
+        y: 266
+        width: 1890
+        height: 133
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c147897fd86f11748b781d74fc737f6f
-      internalID: -934943202
+      spriteID: 45dbb04c3f98bc74781ccf519a170e59
+      internalID: -2075387787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KeyboardSplit_2
+      name: KeyboardBGSplit_2
       rect:
         serializedVersion: 2
-        x: 23
-        y: 357
-        width: 1877
-        height: 156
+        x: 0
+        y: 133
+        width: 1890
+        height: 133
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4c9dfb1144817146a40375199d96af5
-      internalID: 98415690
+      spriteID: be800aa9eccb2c64a95883f14f093675
+      internalID: 1147853247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: KeyboardSplit_3
+      name: KeyboardBGSplit_3
       rect:
         serializedVersion: 2
-        x: 23
-        y: 201
-        width: 1877
-        height: 156
+        x: 0
+        y: 0
+        width: 1890
+        height: 133
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d98ac46e0a98d784f8a9bb92055453b8
-      internalID: 1827031762
+      spriteID: 33754c39f0774124fb3a52192d216af3
+      internalID: 1809811593
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      KeyboardSplit_0: 1523243519
-      KeyboardSplit_1: -934943202
-      KeyboardSplit_2: 98415690
-      KeyboardSplit_3: 1827031762
+      KeyboardBGSplit_0: -508848438
+      KeyboardBGSplit_1: -2075387787
+      KeyboardBGSplit_2: 1147853247
+      KeyboardBGSplit_3: 1809811593
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
