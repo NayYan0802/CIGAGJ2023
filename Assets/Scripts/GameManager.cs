@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
  
     [SerializeField] private GameObject movingPart;
 
+    [SerializeField] private GameObject BG1;
+    [SerializeField] private GameObject BG2;
+
     [SerializeField] private GameObject[] R1;
     [SerializeField] private GameObject[] R2;
     [SerializeField] private GameObject[] R3;
@@ -32,6 +35,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2[] TRoot = new Vector2[6];
     [SerializeField] private Vector2[] Target = new Vector2[6];
     [SerializeField] private Transform[] TPoint;
+
+        private float switchBG=0;
+
  
     private Dictionary<string, int> Pairs = new Dictionary<string, int>();
 
@@ -95,6 +101,15 @@ public class GameManager : MonoBehaviour
         {
             SwitchKeyboard();
         }
+                if (Camera.main.transform.position.y > 56+15*switchBG) {
+                        if (BG1.transform.position.y > BG2.transform.position.y) {
+                                BG2.transform.Translate(Vector3.up * 30, Space.Self);                                
+                        }
+                        else {
+                                BG1.transform.Translate(Vector3.up * 30, Space.Self);
+                        }
+                        switchBG++;
+                }
         UIUpdate();
         InputUpdate();
         TentacleUpdate();
