@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private bool hasStart;
     [SerializeField] private float speed;
+    [SerializeField] private float speed1;
+    [SerializeField] private float speed2;
  
     [SerializeField] private GameObject movingPart;
 
@@ -23,6 +25,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float downSide_Y;
 
+    [SerializeField] private List<Transform> tentacleList;
+    [SerializeField] private Transform body;
+    [SerializeField] private Vector2 bodyTarget;
+    [SerializeField] private float bodyOffset;
+    [SerializeField] private Vector2[] TRoot = new Vector2[6];
+    [SerializeField] private Vector2[] Target = new Vector2[6];
+    [SerializeField] private Transform[] TPoint;
+ 
     private Dictionary<string, int> Pairs = new Dictionary<string, int>();
 
     private float protectionTime = 0.5f;
@@ -79,21 +89,48 @@ public class GameManager : MonoBehaviour
     {
         if (hasStart)
         {
-            movingPart.transform.Translate(Vector2.down * Time.deltaTime * speed, Space.Self);
+            Camera.main.transform.Translate(Vector2.up * Time.deltaTime * speed, Space.Self);
         }
-        if (Keys[0].transform.position.y < downSide_Y)
+        if (Keys[0].transform.position.y- Camera.main.transform.position.y < downSide_Y)
         {
             SwitchKeyboard();
         }
         UIUpdate();
         InputUpdate();
+        TentacleUpdate();
 
-        Debug.Log(Pairs.Count);
+        //Debug.Log(Pairs.Count);
+    }
+
+    private void TentacleUpdate()
+    {
+        bodyTarget = (Target[0] + Target[1] + Target[2] + Target[3] + Target[4] + Target[5]) / 6;
+        bodyTarget.y -= bodyOffset;
+        body.Translate((bodyTarget - (Vector2)body.position).normalized * speed2 * Time.deltaTime, Space.Self);
+        TRoot[0] = body.position;
+        TRoot[0].x -= 2;
+        TRoot[1] = body.position;
+        TRoot[1].x -= 1;
+        TRoot[2] = body.position;
+        TRoot[3] = body.position;
+        TRoot[4] = body.position;
+        TRoot[4].x += 1;
+        TRoot[5] = body.position;
+        TRoot[5].x += 2;
+        for (int i = 0; i < 6; i++)
+        {
+            TPoint[i].Translate((Target[i] - (Vector2)TPoint[i].position).normalized*speed1*Time.deltaTime, Space.Self);
+            tentacleList[i].position = TRoot[i];
+            tentacleList[i].up = (Vector2)TPoint[i].position - TRoot[i];
+            Vector3 newscale = tentacleList[i].localScale;
+            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.17f;
+            tentacleList[i].localScale = newscale;
+        }
     }
 
     private void UIUpdate()
     {
-        score.text = ((int)(movingPart.transform.position.y * -1)).ToString() + "cm";
+        score.text = ((int)(Camera.main.transform.position.y)).ToString() + "cm";
     }
 
     private void SwitchKeyboard()
@@ -101,6 +138,43 @@ public class GameManager : MonoBehaviour
         Vector2 pos = Keys[0].transform.localPosition;
         pos.y+=4;
         Keys[0].transform.localPosition = pos;
+        //switch (Keys[0].name)
+        //{
+        //    case "R1":
+        //        for (int i = 0; i < R1.Length; i++)
+        //        {
+        //            Vector2 _pos = R1[i].transform.localPosition;
+        //            _pos.y += 4;
+        //            R1[i].transform.localPosition = _pos;
+        //        }
+        //        break;
+        //    case "R2":
+        //        for (int i = 0; i < R2.Length; i++)
+        //        {
+        //            Vector2 _pos = R2[i].transform.localPosition;
+        //            _pos.y += 4;
+        //            R2[i].transform.localPosition = _pos;
+        //        }
+        //        break;
+        //    case "R3":
+        //        for (int i = 0; i < R3.Length; i++)
+        //        {
+        //            Vector2 _pos = R3[i].transform.localPosition;
+        //            _pos.y += 4;
+        //            R3[i].transform.localPosition = _pos;
+        //        }
+        //        break;
+        //    case "R4":
+        //        for (int i = 0; i < R4.Length; i++)
+        //        {
+        //            Vector2 _pos = R4[i].transform.localPosition;
+        //            _pos.y += 4;
+        //            R4[i].transform.localPosition = _pos;
+        //        }
+        //        break;
+        //    default:
+        //        break;
+        //}
         Keys.Add(Keys[0]);
         Keys.RemoveAt(0);
     }
@@ -150,26 +224,29 @@ public class GameManager : MonoBehaviour
             {
                 if (!Pairs.ContainsKey(key) && Pairs.Count < 6)
                 {
-                    int handIdx = GetSpareHand();
+                    int handIdx = GetSpareHand(GameObject.Find(key).transform.position);
                     Pairs.Add(key, handIdx);
                     EventBus.Publish(new TentacleTouch(handIdx,GameObject.Find(key).transform.position));
+                    Target[handIdx]= GameObject.Find(key).transform.position;
                     Debug.Log(key + " down");
                 }
             }
         }
     }
 
-    private int GetSpareHand()
+    private int GetSpareHand(Vector3 position)
     {
+        float dst = 1000;
+        int idx = -1;
         for (int i = 0; i < 6; i++)
         {
-            if (!Pairs.ContainsValue(i))
+            if (!Pairs.ContainsValue(i)&& Vector2.Distance(Target[i], position)<dst)
             {
-                return i;
+                dst = Vector2.Distance(Target[i], position);
+                idx = i;
             }
         }
-        Debug.LogError("WrongHand");
-        return -1;
+        return idx;
     }
 
     public void OnPause()

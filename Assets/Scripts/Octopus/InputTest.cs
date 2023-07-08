@@ -10,7 +10,7 @@ public class InputTest : MonoBehaviour {
         void OnMouseDown() {
                 EventBus.Publish(new TentacleLoose(tentacleIndex));
         }
-        void OnMouseUpAsButton() {
-                EventBus.Publish(new TentacleTouch(tentacleIndex, targetPosition));
-        }
+        //void OnMouseUpAsButton() {
+        //        EventBus.Publish(new TentacleTouch(tentacleIndex, targetPosition));
+        //}
 }
