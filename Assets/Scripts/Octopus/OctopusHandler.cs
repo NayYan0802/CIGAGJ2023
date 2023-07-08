@@ -20,7 +20,7 @@ public class OctopusHandler : MonoBehaviour {
         }
         //触手连接事件执行的方法
         void TentacleTouchFunc(TentacleTouch tentacleTouch) {
-                tentacleList[tentacleTouch.tentacleIndex].GetComponent<Tentacle>().MoveTentacle(tentacleTouch.targetPos);
+                //tentacleList[tentacleTouch.tentacleIndex].GetComponent<Tentacle>().MoveTentacle(tentacleTouch.targetPos);
                 tentacleList[tentacleTouch.tentacleIndex].GetComponent<Tentacle>().SetAnimation(false);
         }
 
