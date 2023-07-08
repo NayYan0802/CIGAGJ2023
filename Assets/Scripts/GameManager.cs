@@ -122,9 +122,9 @@ public class GameManager : MonoBehaviour
             TPoint[i].Translate((Target[i] - (Vector2)TPoint[i].position).normalized*speed1*Time.deltaTime, Space.Self);
             tentacleList[i].position = TRoot[i];
             tentacleList[i].up = ((Vector2)TPoint[i].position - TRoot[i]).normalized;
-            tentacleList[i].Rotate(Vector3.back, TPoint[i].position.x < 0 ? 5:-5) ;
+            tentacleList[i].Rotate(Vector3.back, i<3 ? 13:-13) ;
             Vector3 newscale = tentacleList[i].localScale;
-            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.2f;
+            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.17f;
             tentacleList[i].localScale = newscale;
         }
     }

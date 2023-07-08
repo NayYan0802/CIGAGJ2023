@@ -2016,7 +2016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab4fbcc465376040b2b3cac906cf72a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasStart: 0
+  hasStart: 1
   speed: 0.5
   speed1: 5
   speed2: 2
