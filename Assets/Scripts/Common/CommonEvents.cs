@@ -20,3 +20,19 @@ public class TentacleTouch {
                 targetPos = _targetPos;
         }
 }
+
+public class PlayAudioClip {
+        public int clipIndex;
+
+        public PlayAudioClip(int _clipIndex) {
+                clipIndex = _clipIndex;
+        }
+}
+
+public class PlayBGM {
+        public PlayBGM() { }
+}
+
+public class StopBGM {
+        public StopBGM() { }
+}
