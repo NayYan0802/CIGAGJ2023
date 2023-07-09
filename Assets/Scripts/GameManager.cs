@@ -232,6 +232,7 @@ public class GameManager : MonoBehaviour
                 if (Pairs.ContainsKey(key))
                 {
                     EventBus.Publish(new TentacleLoose(Pairs[key]));
+                    EventBus.Publish(new PlayAudioClip(0));
                     Pairs.Remove(key);
                     Debug.Log(key + " up");
                 }
@@ -243,6 +244,7 @@ public class GameManager : MonoBehaviour
                     int handIdx = GetSpareHand(GameObject.Find(key).transform.position);
                     Pairs.Add(key, handIdx);
                     EventBus.Publish(new TentacleTouch(handIdx,GameObject.Find(key).transform.position));
+                    EventBus.Publish(new PlayAudioClip(1));
                     Target[handIdx]= GameObject.Find(key).transform.position;
                     Debug.Log(key + " down");
                 }
