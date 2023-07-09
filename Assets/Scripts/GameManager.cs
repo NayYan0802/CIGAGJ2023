@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
  
     [SerializeField] private GameObject movingPart;
 
+    [SerializeField] private GameObject BG1;
+    [SerializeField] private GameObject BG2;
+
     [SerializeField] private GameObject[] R1;
     [SerializeField] private GameObject[] R2;
     [SerializeField] private GameObject[] R3;
@@ -32,6 +35,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2[] TRoot = new Vector2[6];
     [SerializeField] private Vector2[] Target = new Vector2[6];
     [SerializeField] private Transform[] TPoint;
+
+        private float switchBG=0;
+
  
     private Dictionary<string, int> Pairs = new Dictionary<string, int>();
 
@@ -95,6 +101,15 @@ public class GameManager : MonoBehaviour
         {
             SwitchKeyboard();
         }
+                if (Camera.main.transform.position.y > 56+15*switchBG) {
+                        if (BG1.transform.position.y > BG2.transform.position.y) {
+                                BG2.transform.Translate(Vector3.up * 30, Space.Self);                                
+                        }
+                        else {
+                                BG1.transform.Translate(Vector3.up * 30, Space.Self);
+                        }
+                        switchBG++;
+                }
         UIUpdate();
         InputUpdate();
         TentacleUpdate();
@@ -122,9 +137,9 @@ public class GameManager : MonoBehaviour
             TPoint[i].Translate((Target[i] - (Vector2)TPoint[i].position).normalized*speed1*Time.deltaTime, Space.Self);
             tentacleList[i].position = TRoot[i];
             tentacleList[i].up = ((Vector2)TPoint[i].position - TRoot[i]).normalized;
-            tentacleList[i].Rotate(Vector3.back, TPoint[i].position.x < 0 ? 5:-5) ;
+            tentacleList[i].Rotate(Vector3.back, i<3 ? 13:-13) ;
             Vector3 newscale = tentacleList[i].localScale;
-            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.2f;
+            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.17f;
             tentacleList[i].localScale = newscale;
         }
     }
