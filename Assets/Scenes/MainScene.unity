@@ -3228,7 +3228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasStart: 1
-  speed: 0.2
+  speed: 0.3
   speed1: 10
   speed2: 2
   movingPart: {fileID: 1157772394}
@@ -3317,7 +3317,7 @@ MonoBehaviour:
   - {fileID: 206027990}
   - {fileID: 1440756532}
   obstaclePossibility: 0.3
-  LoseDeter: 0
+  LoseDeter: 6
 --- !u!4 &795937116
 Transform:
   m_ObjectHideFlags: 0
@@ -9698,8 +9698,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 981949264}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1864930239
 AudioSource:

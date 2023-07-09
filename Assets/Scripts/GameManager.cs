@@ -131,8 +131,9 @@ public class GameManager : MonoBehaviour
         if (body.position.y < Camera.main.transform.position.y - LoseDeter)
         {
             PlayerPrefs.SetString("score", score.text);
+            Debug.Log(body.position.y + "   " + (Camera.main.transform.position.y - LoseDeter));
+            SceneManager.LoadScene(3);
         }
-        SceneManager.LoadScene(2);
     }
 
     private void TentacleUpdate()
