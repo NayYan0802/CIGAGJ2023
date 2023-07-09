@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] R3;
     [SerializeField] private GameObject[] R4;
 
+    [SerializeField] private bool[] _R1;
+    [SerializeField] private bool[] _R2;
+    [SerializeField] private bool[] _R3;
+    [SerializeField] private bool[] _R4;
+
     [SerializeField] private Text score;
 
     [SerializeField] private List<GameObject> Keys;
@@ -36,7 +41,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2[] Target = new Vector2[6];
     [SerializeField] private Transform[] TPoint;
 
-        private float switchBG=0;
+    [SerializeField] private float obstaclePossibility;
+    [SerializeField] private float LoseDeter;
+
+    private float switchBG=0;
 
  
     private Dictionary<string, int> Pairs = new Dictionary<string, int>();
@@ -113,8 +121,18 @@ public class GameManager : MonoBehaviour
         UIUpdate();
         InputUpdate();
         TentacleUpdate();
+        Lose();
 
         //Debug.Log(Pairs.Count);
+    }
+
+    private void Lose()
+    {
+        if (body.position.y < Camera.main.transform.position.y - LoseDeter)
+        {
+            PlayerPrefs.SetString("score", score.text);
+        }
+        SceneManager.LoadScene(2);
     }
 
     private void TentacleUpdate()
@@ -153,44 +171,74 @@ public class GameManager : MonoBehaviour
     {
         Vector2 pos = Keys[0].transform.localPosition;
         pos.y+=4;
+        //Add Obstacles
+
+        switch (Keys[0].name)
+        {
+            case "R1":
+                for (int i = 0; i < R1.Length; i++)
+                {
+                    if (UnityEngine.Random.value > obstaclePossibility)
+                    {
+                        _R1[i] = true;
+                        R1[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    else
+                    {
+                        _R1[i] = false;
+                        R1[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                break;
+            case "R2":
+                for (int i = 0; i < R2.Length; i++)
+                {
+                    if (UnityEngine.Random.value > obstaclePossibility)
+                    {
+                        _R2[i] = true;
+                        R2[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    else
+                    {
+                        _R2[i] = false;
+                        R2[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                break;
+            case "R3":
+                for (int i = 0; i < R3.Length; i++)
+                {
+                    if (UnityEngine.Random.value > obstaclePossibility)
+                    {
+                        _R3[i] = true;
+                        R3[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    else
+                    {
+                        _R3[i] = false;
+                        R3[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                break;
+            case "R4":
+                for (int i = 0; i < R4.Length; i++)
+                {
+                    if (UnityEngine.Random.value > obstaclePossibility)
+                    {
+                        _R4[i] = true;
+                        R4[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+                    }
+                    else
+                    {
+                        _R4[i] = false;
+                        R4[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
         Keys[0].transform.localPosition = pos;
-        //switch (Keys[0].name)
-        //{
-        //    case "R1":
-        //        for (int i = 0; i < R1.Length; i++)
-        //        {
-        //            Vector2 _pos = R1[i].transform.localPosition;
-        //            _pos.y += 4;
-        //            R1[i].transform.localPosition = _pos;
-        //        }
-        //        break;
-        //    case "R2":
-        //        for (int i = 0; i < R2.Length; i++)
-        //        {
-        //            Vector2 _pos = R2[i].transform.localPosition;
-        //            _pos.y += 4;
-        //            R2[i].transform.localPosition = _pos;
-        //        }
-        //        break;
-        //    case "R3":
-        //        for (int i = 0; i < R3.Length; i++)
-        //        {
-        //            Vector2 _pos = R3[i].transform.localPosition;
-        //            _pos.y += 4;
-        //            R3[i].transform.localPosition = _pos;
-        //        }
-        //        break;
-        //    case "R4":
-        //        for (int i = 0; i < R4.Length; i++)
-        //        {
-        //            Vector2 _pos = R4[i].transform.localPosition;
-        //            _pos.y += 4;
-        //            R4[i].transform.localPosition = _pos;
-        //        }
-        //        break;
-        //    default:
-        //        break;
-        //}
         Keys.Add(Keys[0]);
         Keys.RemoveAt(0);
     }
@@ -239,13 +287,45 @@ public class GameManager : MonoBehaviour
             }
             if (Input.GetKeyDown(AllKeys[i]))
             {
+                GameObject thisKey = GameObject.Find(key);
+                for (int j = 0; j < R1.Length; j++)
+                {
+                    if (R1[j] == thisKey && !_R1[j])
+                    {
+                        return;
+                    }
+                }
+                for (int j = 0; j < R2.Length; j++)
+                {
+                    if (R2[j] == thisKey && !_R2[j])
+                    {
+                        return;
+                    }
+                }
+                for (int j = 0; j < R3.Length; j++)
+                {
+                    if (R3[j] == thisKey && !_R3[j])
+                    {
+                        return;
+                    }
+                }
+                for (int j = 0; j < R4.Length; j++)
+                {
+                    if (R4[j] == thisKey && !_R4[j])
+                    {
+                        return;
+                    }
+                }
+                if (Pairs.Count > 5)
+                {
+                    hasStart = true;
+                }
                 if (!Pairs.ContainsKey(key) && Pairs.Count < 6)
                 {
-                    int handIdx = GetSpareHand(GameObject.Find(key).transform.position);
+                    int handIdx = GetSpareHand(thisKey.transform.position);
                     Pairs.Add(key, handIdx);
-                    EventBus.Publish(new TentacleTouch(handIdx,GameObject.Find(key).transform.position));
-                    EventBus.Publish(new PlayAudioClip(1));
-                    Target[handIdx]= GameObject.Find(key).transform.position;
+                    EventBus.Publish(new TentacleTouch(handIdx, thisKey.transform.position));
+                    Target[handIdx]= thisKey.transform.position;
                     Debug.Log(key + " down");
                 }
             }
