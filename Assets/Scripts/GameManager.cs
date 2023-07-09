@@ -280,6 +280,7 @@ public class GameManager : MonoBehaviour
                 if (Pairs.ContainsKey(key))
                 {
                     EventBus.Publish(new TentacleLoose(Pairs[key]));
+                    EventBus.Publish(new PlayAudioClip(0));
                     Pairs.Remove(key);
                     Debug.Log(key + " up");
                 }
