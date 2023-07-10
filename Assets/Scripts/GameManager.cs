@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float speed1;
     [SerializeField] private float speed2;
- 
+
     [SerializeField] private GameObject movingPart;
 
     [SerializeField] private GameObject BG1;
@@ -41,12 +41,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2[] Target = new Vector2[6];
     [SerializeField] private Transform[] TPoint;
 
-    [SerializeField] private float obstaclePossibility;
+    [SerializeField] private float _obstaclePossibility;
     [SerializeField] private float LoseDeter;
 
-    private float switchBG=0;
+    [SerializeField] private GameObject GuideUI;
 
- 
+    private float switchBG = 0;
+
+
     private Dictionary<string, int> Pairs = new Dictionary<string, int>();
 
     private float protectionTime = 0.5f;
@@ -103,21 +105,30 @@ public class GameManager : MonoBehaviour
     {
         if (hasStart)
         {
-            Camera.main.transform.Translate(Vector2.up * Time.deltaTime * speed, Space.Self);
+            float actualSpeed = speed * (1 + Camera.main.transform.position.y / 10);
+            actualSpeed = Mathf.Clamp(actualSpeed, speed, speed * 2);
+            Camera.main.transform.Translate(Vector2.up * Time.deltaTime * actualSpeed, Space.Self);
         }
-        if (Keys[0].transform.position.y- Camera.main.transform.position.y < downSide_Y)
+        if (Keys[0].transform.position.y - Camera.main.transform.position.y < downSide_Y)
         {
             SwitchKeyboard();
         }
-                if (Camera.main.transform.position.y > 56+15*switchBG) {
-                        if (BG1.transform.position.y > BG2.transform.position.y) {
-                                BG2.transform.Translate(Vector3.up * 30, Space.Self);                                
-                        }
-                        else {
-                                BG1.transform.Translate(Vector3.up * 30, Space.Self);
-                        }
-                        switchBG++;
-                }
+        if (Camera.main.transform.position.y > 5)
+        {
+            GuideUI.SetActive(false);
+        }
+        if (Camera.main.transform.position.y > 56 + 15 * switchBG)
+        {
+            if (BG1.transform.position.y > BG2.transform.position.y)
+            {
+                BG2.transform.Translate(Vector3.up * 30, Space.Self);
+            }
+            else
+            {
+                BG1.transform.Translate(Vector3.up * 30, Space.Self);
+            }
+            switchBG++;
+        }
         UIUpdate();
         InputUpdate();
         TentacleUpdate();
@@ -153,12 +164,12 @@ public class GameManager : MonoBehaviour
         TRoot[5].x += 2;
         for (int i = 0; i < 6; i++)
         {
-            TPoint[i].Translate((Target[i] - (Vector2)TPoint[i].position).normalized*speed1*Time.deltaTime, Space.Self);
+            TPoint[i].Translate((Target[i] - (Vector2)TPoint[i].position).normalized * speed1 * Time.deltaTime, Space.Self);
             tentacleList[i].position = TRoot[i];
             tentacleList[i].up = ((Vector2)TPoint[i].position - TRoot[i]).normalized;
-            tentacleList[i].Rotate(Vector3.back, i<3 ? 13:-13) ;
+            tentacleList[i].Rotate(Vector3.back, i < 3 ? 13 : -13);
             Vector3 newscale = tentacleList[i].localScale;
-            newscale.y= Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.17f;
+            newscale.y = Vector2.Distance((Vector2)TPoint[i].position, TRoot[i]) * 0.17f;
             tentacleList[i].localScale = newscale;
         }
     }
@@ -171,9 +182,10 @@ public class GameManager : MonoBehaviour
     private void SwitchKeyboard()
     {
         Vector2 pos = Keys[0].transform.localPosition;
-        pos.y+=4;
+        pos.y += 4;
         //Add Obstacles
-
+        float obstaclePossibility = 0.1f+_obstaclePossibility * Camera.main.transform.position.y / 10;
+        obstaclePossibility = Mathf.Clamp(obstaclePossibility,0, _obstaclePossibility);
         switch (Keys[0].name)
         {
             case "R1":
@@ -274,10 +286,10 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                key = (((char)(i+87)).ToString());
+                key = (((char)(i + 87)).ToString());
             }
             if (Input.GetKeyUp(AllKeys[i]))
-            {                
+            {
                 if (Pairs.ContainsKey(key))
                 {
                     EventBus.Publish(new TentacleLoose(Pairs[key]));
@@ -341,7 +353,7 @@ public class GameManager : MonoBehaviour
         int idx = -1;
         for (int i = 0; i < 6; i++)
         {
-            if (!Pairs.ContainsValue(i)&& Vector2.Distance(Target[i], position)<dst)
+            if (!Pairs.ContainsValue(i) && Vector2.Distance(Target[i], position) < dst)
             {
                 dst = Vector2.Distance(Target[i], position);
                 idx = i;
