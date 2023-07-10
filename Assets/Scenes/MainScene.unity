@@ -3316,7 +3316,7 @@ MonoBehaviour:
   - {fileID: 1932593463}
   - {fileID: 206027990}
   - {fileID: 1440756532}
-  obstaclePossibility: 0.3
+  _obstaclePossibility: 0.4
   LoseDeter: 6
 --- !u!4 &795937116
 Transform:
