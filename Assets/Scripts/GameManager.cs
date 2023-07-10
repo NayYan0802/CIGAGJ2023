@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2[] Target = new Vector2[6];
     [SerializeField] private Transform[] TPoint;
 
-    [SerializeField] private float obstaclePossibility;
+    [SerializeField] private float _obstaclePossibility;
     [SerializeField] private float LoseDeter;
 
     private float switchBG=0;
@@ -103,7 +103,9 @@ public class GameManager : MonoBehaviour
     {
         if (hasStart)
         {
-            Camera.main.transform.Translate(Vector2.up * Time.deltaTime * speed, Space.Self);
+            float actualSpeed = speed * (1 + Camera.main.transform.position.y / 20);
+            actualSpeed = Mathf.Clamp(actualSpeed, speed, speed * 2);
+            Camera.main.transform.Translate(Vector2.up * Time.deltaTime * actualSpeed, Space.Self);
         }
         if (Keys[0].transform.position.y- Camera.main.transform.position.y < downSide_Y)
         {
@@ -173,7 +175,8 @@ public class GameManager : MonoBehaviour
         Vector2 pos = Keys[0].transform.localPosition;
         pos.y+=4;
         //Add Obstacles
-
+        float obstaclePossibility = _obstaclePossibility * Camera.main.transform.position.y / 20;
+        obstaclePossibility = Mathf.Clamp01(obstaclePossibility);
         switch (Keys[0].name)
         {
             case "R1":
