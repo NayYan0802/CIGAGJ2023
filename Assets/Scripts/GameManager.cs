@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
 
     private void Lose()
     {
-        if (body.position.y < Camera.main.transform.position.y - LoseDeter)
+        if (body.position.y < Camera.main.transform.position.y - LoseDeter|| hasStart && Pairs.Count <= 3)
         {
             PlayerPrefs.SetString("score", score.text);
             Debug.Log(body.position.y + "   " + (Camera.main.transform.position.y - LoseDeter));
@@ -317,7 +317,8 @@ public class GameManager : MonoBehaviour
                         return;
                     }
                 }
-                if (Pairs.Count > 5)
+                                Debug.Log(Pairs.Count);
+                if (Pairs.Count > 4)
                 {
                     hasStart = true;
                 }
@@ -326,6 +327,7 @@ public class GameManager : MonoBehaviour
                     int handIdx = GetSpareHand(thisKey.transform.position);
                     Pairs.Add(key, handIdx);
                     EventBus.Publish(new TentacleTouch(handIdx, thisKey.transform.position));
+                    EventBus.Publish(new PlayAudioClip(1));
                     Target[handIdx]= thisKey.transform.position;
                     Debug.Log(key + " down");
                 }
@@ -367,6 +369,6 @@ public class GameManager : MonoBehaviour
     public void GoToMenu()
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }
