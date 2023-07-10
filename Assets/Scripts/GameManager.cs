@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _obstaclePossibility;
     [SerializeField] private float LoseDeter;
 
+    [SerializeField] private GameObject GuideUI;
+
     private float switchBG = 0;
 
 
@@ -110,6 +112,10 @@ public class GameManager : MonoBehaviour
         if (Keys[0].transform.position.y - Camera.main.transform.position.y < downSide_Y)
         {
             SwitchKeyboard();
+        }
+        if (Camera.main.transform.position.y > 5)
+        {
+            GuideUI.SetActive(false);
         }
         if (Camera.main.transform.position.y > 56 + 15 * switchBG)
         {
@@ -178,8 +184,8 @@ public class GameManager : MonoBehaviour
         Vector2 pos = Keys[0].transform.localPosition;
         pos.y += 4;
         //Add Obstacles
-        float obstaclePossibility = _obstaclePossibility * Camera.main.transform.position.y / 10;
-        obstaclePossibility = Mathf.Clamp01(obstaclePossibility);
+        float obstaclePossibility = 0.1f+_obstaclePossibility * Camera.main.transform.position.y / 10;
+        obstaclePossibility = Mathf.Clamp(obstaclePossibility,0, _obstaclePossibility);
         switch (Keys[0].name)
         {
             case "R1":
